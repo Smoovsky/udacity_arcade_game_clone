@@ -1,5 +1,5 @@
-var col = 101;
-var row = 83;
+var COL = 101;
+var ROW = 83;
 var playerRow = 4;
 var playerCol = 2;
 var collide = false;
@@ -18,6 +18,7 @@ var Enemy = function(x = 0, y = 60, row = 1) {
   this.sprite = 'images/enemy-bug.png';
   this.row = row;
   this.col = 0;
+  this.speed = Math.round(Math.random()*200+400);
 };
 
 var gameFinish = function(){
@@ -27,7 +28,7 @@ var gameFinish = function(){
   ctx.strokeStyle = 'black';
   //ctx.moveTo(ctx.width/2, ctx.height/2);
   setTimeout(()=>{ctx.strokeText('Game Cleared!',ctx.canvas.width/2, ctx.canvas.height/2 );}, 500);
-}
+};
 
 // 此为游戏必须的函数，用来更新敌人的位置
 // 参数: dt ，表示时间间隙
@@ -36,8 +37,8 @@ Enemy.prototype.update = function(dt) {
   // 都是以同样的速度运行的
   if(!gameFinished){
     if(this.x < 510){
-      this.x+=gameSpeed*dt;
-      this.col = Math.round((this.x+0.5*col)/col-1);
+      this.x+=this.speed*dt;
+      this.col = Math.round((this.x+0.5*COL)/COL-1);
       if(this.row == playerRow && this.col == playerCol){
         collide = true;
       }
@@ -67,8 +68,8 @@ Enemy.prototype.render = function() {
 // 现在实现你自己的玩家类
 // 这个类需要一个 update() 函数， render() 函数和一个 handleInput()函数
 var playerClass = function(){
-  this.x = 2*col;
-  this.y = 4*row;
+  this.x = 2*COL;
+  this.y = 4*ROW;
   this.sprite = 'images/char-boy.png';
   this.row = 4;
   this.col = 2;
@@ -82,8 +83,8 @@ playerClass.prototype.update = function(){
     playerCol = this.col;
     if(collide){
       collide = false;
-      this.x = 2*col;
-      this.y = 4*row;
+      this.x = 2*COL;
+      this.y = 4*ROW;
       this.row = 4;
       this.col = 2;
     }
@@ -101,25 +102,25 @@ playerClass.prototype.handleInput = function(key) {
       case 'left':
         if(this.col == 0)
           break;
-        this.x-=col;
+        this.x-=COL;
         this.col--;
         break;
       case 'right':
         if(this.col == 4)
           break;
-        this.x+=col;
+        this.x+=COL;
         this.col++;
         break;
       case 'up':
         if(this.row == 0)
           break;
-        this.y-=row;
+        this.y-=ROW;
         this.row--;
         break;
       case 'down':
         if(this.row == 5)
           break;
-        this.y+=row;
+        this.y+=ROW;
         this.row++;
         break;
     }
